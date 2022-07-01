@@ -8,7 +8,7 @@ export function MyLink({
 }: {
   text: string;
   to: string;
-  state: any;
+  state?: any;
 }) {
   return (
     <Link

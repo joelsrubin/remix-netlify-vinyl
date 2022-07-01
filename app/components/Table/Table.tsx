@@ -6,7 +6,7 @@ import { isMobile } from "react-device-detect";
 type SortBy =
   | ""
   | "title"
-  | "artist"
+  | "artists"
   | "year"
   | "genre"
   | "label"
@@ -17,6 +17,8 @@ export function Table({ items }: { items: Release[] }) {
   const [sortBy, setSortBy] = useState<SortBy>("");
   const [sortedElements, setSortedElements] = useState([]);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [searched, setSearched] = useState("");
+  const [originalItems, setOriginalItems] = useState([...items]);
 
   const omittedBasicInformation = [
     "cover_image",
@@ -29,12 +31,12 @@ export function Table({ items }: { items: Release[] }) {
 
   const mobileContent = ["title", "artists"];
 
-  const headers = Object.keys(items[0].basic_information).filter((h) =>
+  const headers = Object.keys(originalItems[0].basic_information).filter((h) =>
     isMobile ? mobileContent.includes(h) : !omittedBasicInformation.includes(h)
   );
 
   // extract the row data for each album
-  const rows = items.map((album) => {
+  const rows = originalItems.map((album) => {
     const row: any = {};
     headers.forEach((header: any) => {
       //@ts-ignore
@@ -104,47 +106,81 @@ export function Table({ items }: { items: Release[] }) {
     );
   }, [sortDirection]);
 
+  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearched(e.target.value);
+  }
+
+  useEffect(() => {
+    if (!searched) {
+      setOriginalItems([...items]);
+    }
+    if (searched) {
+      const searchables = [...items];
+      const filteredAlbums = searchables.filter(
+        (album) =>
+          album.basic_information.title.toLowerCase().includes(searched) ||
+          album.basic_information.artists
+            .map((artist) => artist.name.toLowerCase())
+            .join(" ")
+            .includes(searched)
+      );
+      if (filteredAlbums.length) {
+        setOriginalItems(filteredAlbums);
+      }
+    }
+  }, [searched]);
+
   return (
-    <table className="flex justify-center mt-10 font-mono ">
-      <thead>
-        <tr>
-          {headers.map((hdr) => (
-            <th
-              key={hdr}
-              className={`text-left cursor-pointer ${
-                hdr === sortBy && "underline"
-              }`}
-              onClick={() => handleSort(hdr as SortBy)}
-            >
-              <div className="flex flex-row px-10">
-                {hdr.toUpperCase()}
-                {hdr === sortBy && (
-                  <img
-                    src={sortDirection === "asc" ? Up : Down}
-                    alt="up"
-                    height={20}
-                    width={20}
-                    style={{
-                      display: "inline",
-                      marginLeft: "0.5rem",
-                      fontWeight: "bold",
-                    }}
-                  />
-                )}
-              </div>
-            </th>
-          ))}
-        </tr>
-        {elements.map((row: any, i: number) => (
-          <tr key={i} className="odd:bg-slate-100">
-            {Object.keys(row).map((key) => (
-              <td key={key} className="px-10 py-5">
-                {row[key]}
-              </td>
+    <div>
+      <div className="flex justify-center items-center ">
+        <input
+          type="text"
+          placeholder="search by artist or title"
+          className="py-5 px-5 my-5 mx-3 border-none"
+          onChange={handleSearch}
+        />
+      </div>
+      <table className="flex justify-center mt-10 font-mono ">
+        <thead>
+          <tr>
+            {headers.map((hdr) => (
+              <th
+                key={hdr}
+                className={`text-left cursor-pointer ${
+                  hdr === sortBy && "underline"
+                }`}
+                onClick={() => handleSort(hdr as SortBy)}
+              >
+                <div className="flex flex-row px-10">
+                  {hdr.toUpperCase()}
+                  {hdr === sortBy && (
+                    <img
+                      src={sortDirection === "asc" ? Up : Down}
+                      alt="up"
+                      height={20}
+                      width={20}
+                      style={{
+                        display: "inline",
+                        marginLeft: "0.5rem",
+                        fontWeight: "bold",
+                      }}
+                    />
+                  )}
+                </div>
+              </th>
             ))}
           </tr>
-        ))}
-      </thead>
-    </table>
+          {elements.map((row: any, i: number) => (
+            <tr key={i} className="odd:bg-slate-100">
+              {Object.keys(row).map((key) => (
+                <td key={key} className="px-10 py-5">
+                  {row[key]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </thead>
+      </table>
+    </div>
   );
 }

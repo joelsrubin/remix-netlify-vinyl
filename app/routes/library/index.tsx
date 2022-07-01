@@ -1,5 +1,5 @@
 import { json } from "@remix-run/node";
-import { useLoaderData, useTransition } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { MyLink } from "~/components/Link/Link";
 import { Table } from "~/components/Table/Table";
 
