@@ -132,11 +132,11 @@ export function Table({ items }: { items: Release[] }) {
 
   return (
     <div>
-      <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center my-10">
         <input
           type="text"
           placeholder="search by artist or title"
-          className="py-5 px-5 my-5 mx-3 border-none"
+          className="m-5 p-5 border-none"
           onChange={handleSearch}
         />
       </div>

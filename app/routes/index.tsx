@@ -9,7 +9,7 @@ export default function Index() {
       <h1>Vinyl Cup</h1>
       <ul className="mt-20 flex flex-col gap-10 items-center">
         <MyLink to="/library" text="Table View" state={state} />
-        <MyLink to="/cards" text="Card View" state={state} />
+        {/* <MyLink to="/cards" text="Card View" state={state} /> */}
       </ul>
     </div>
   );

@@ -25,7 +25,7 @@ export default function Library() {
         total count {albums.pagination.items}
       </h1>
 
-      <nav className="flex justify-center mt-4">
+      <nav className="flex justify-center mt-4 mb-5">
         <MyLink to="/" text="Home" />
       </nav>
       <Table items={albums.releases} />

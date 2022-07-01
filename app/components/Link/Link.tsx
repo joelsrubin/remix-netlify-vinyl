@@ -17,7 +17,7 @@ export function MyLink({
       prefetch="intent"
     >
       {state.state === "loading" && state.location.pathname === to ? (
-        <ClipLoader />
+        <ClipLoader size={20} />
       ) : (
         text
       )}
