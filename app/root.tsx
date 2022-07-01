@@ -12,11 +12,15 @@ import styles from "./tailwind.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Vinyl",
   viewport: "width=device-width,initial-scale=1",
 });
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: styles },
+  { rel: "apple-touch-icon", href: "https://fav.farm/%F0%9F%92%BF" },
+  { rel: "icon", href: "https://fav.farm/%F0%9F%92%BF" },
+];
 
 export default function App() {
   return (
