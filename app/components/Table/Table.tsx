@@ -138,6 +138,7 @@ export function Table({ items }: { items: Release[] }) {
           placeholder="search by artist or title"
           className="m-5 p-5 border-none"
           onChange={handleSearch}
+          value={searched}
         />
       </div>
       <table className="flex justify-center mt-10 font-mono ">
@@ -146,7 +147,7 @@ export function Table({ items }: { items: Release[] }) {
             {headers.map((hdr) => (
               <th
                 key={hdr}
-                className={`text-left cursor-pointer ${
+                className={`hover:underline text-left cursor-pointer ${
                   hdr === sortBy && "underline"
                 }`}
                 onClick={() => handleSort(hdr as SortBy)}
