@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Up from "../../../public/chevron_up.png";
 import Down from "../../../public/chevron_down.png";
 import { isMobile } from "react-device-detect";
@@ -132,12 +132,13 @@ export function Table({ items }: { items: Release[] }) {
 
   return (
     <div>
-      <div className="flex justify-center items-center my-10">
+      <div className="flex justify-center items-center mt-10">
         <input
           type="text"
-          placeholder="search by artist or title"
-          className="m-5 p-5 border-none"
+          placeholder={isMobile ? "search" : "search by artist or title"}
+          className="m-5 p-5 border-none w-1/4 text-center"
           onChange={handleSearch}
+          onBlur={handleSearch}
           value={searched}
         />
       </div>
